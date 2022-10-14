@@ -1,9 +1,39 @@
-import React from "react";
+import axios from "axios";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import AuthorImage from "../../images/author_thumbnail.jpg";
 import nftImage from "../../images/nftImage.jpg";
 
 const NewItems = () => {
+
+  const [items, setItems] = useState(new Array(4).fill(""));
+  const [time, setTime] = useState(0);
+
+  async function getItems() {
+    let { data } = await axios.get(`https://us-central1-nft-cloud-functions.cloudfunctions.net/newItems`);
+    setItems(data);
+  }
+
+  function updateTimes() {
+    setTime(Date.now())
+  }
+
+  function timeToString(timeLeft) {
+    let millisLeft = timeLeft - time;
+    let secondsLeft = millisLeft / 1000;
+    let minutesLeft = secondsLeft / 60;
+    let hoursLeft = minutesLeft / 60;
+
+    return `${Math.floor(hoursLeft)}h ${Math.floor(minutesLeft % 60)}m ${Math.floor(secondsLeft % 60)}s`
+  }
+
+  useEffect(() => {
+    getItems();
+    setInterval(() => {
+      updateTimes();
+    }, 1000);
+  }, []);
+
   return (
     <section id="section-items" className="no-bottom">
       <div className="container">
@@ -14,7 +44,48 @@ const NewItems = () => {
               <div className="small-border bg-color-2"></div>
             </div>
           </div>
-          {new Array(4).fill(0).map((_, index) => (
+          {
+            items.slice(0,4).map((item) => (
+              <div className="col-lg-3 col-md-6 col-sm-6 col-xs-12" key={item.index}>
+                <div className="nft__item">
+                  <div className="author_list_pp">
+                    <Link
+                      to={`/author/${item.authorId}`}
+                      data-bs-toggle="tooltip"
+                      data-bs-placement="top"
+                      title="Creator: Monica Lucas"
+                    >
+                      <img className="lazy" src={item.authorImage} alt="" />
+                      <i className="fa fa-check"></i>
+                    </Link>
+                  </div>
+                  {
+                    (item.expiryDate && item.expiryDate > 0) && <div className="de_countdown">{timeToString(item.expiryDate)}</div>
+                  }
+                  <div className="nft__item_wrap">
+                    <Link to={`/item-details/${item.nftId}`}>
+                      <img
+                        src={item.nftImage}
+                        className="lazy nft__item_preview"
+                        alt=""
+                      />
+                    </Link>
+                  </div>
+                  <div className="nft__item_info">
+                    <Link to="/item-details">
+                      <h4>{item.title}</h4>
+                    </Link>
+                    <div className="nft__item_price">{item.price} ETH</div>
+                    <div className="nft__item_like">
+                      <i className="fa fa-heart"></i>
+                      <span>{item.likes}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))
+          }
+          {/* {new Array(4).fill(0).map((_, index) => (
             <div className="col-lg-3 col-md-6 col-sm-6 col-xs-12" key={index}>
               <div className="nft__item">
                 <div className="author_list_pp">
@@ -77,7 +148,7 @@ const NewItems = () => {
                 </div>
               </div>
             </div>
-          ))}
+          ))} */}
         </div>
       </div>
     </section>
