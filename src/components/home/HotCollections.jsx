@@ -1,22 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-
 import axios from 'axios';
-
-import OwlCarousel, { options } from 'react-owl-carousel';
+import OwlCarousel from 'react-owl-carousel';
 import 'owl.carousel/dist/assets/owl.carousel.css';
 import 'owl.carousel/dist/assets/owl.theme.default.css';
 import Skeleton from "../UI/Skeleton";
 
-// Owl Carousel: Very code light with many options
-// Keen Slider: Appears to be more mobile focused and to get an appearance that matches the spec requires too much code
-// React Slick: Appears to be a good option with many options
-
-// Both owl and slick appear to be very good options, but I find the owl documentation easier to read when looking for carousel options
-
 const HotCollections = () => {
-
-  const [collections, setCollections] = useState(["", "", "", "", "", ""]);
+  const [collections, setCollections] = useState(["", "", "", ""]);
   const [loading, setLoading] = useState(false);
 
   const carouselOptions = {
