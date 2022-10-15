@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-function NewItemsCountdown({ expiryDate }) {
+function ItemTileCountdown({ expiryDate }) {
     const [time, setTime] = useState(Date.now());
 
     function timeToString() {
@@ -16,6 +16,7 @@ function NewItemsCountdown({ expiryDate }) {
         setInterval(() => {
             setTime(Date.now());
         }, 1000);
+        return () => { setTime(0) };
     }, [])
 
     return (
@@ -23,4 +24,4 @@ function NewItemsCountdown({ expiryDate }) {
     );
 }
 
-export default NewItemsCountdown;
+export default ItemTileCountdown;
