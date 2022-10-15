@@ -7,6 +7,7 @@ import Skeleton from "../UI/Skeleton";
 const ExploreItems = () => {
 
   const [items, setItems] = useState(new Array(8).fill(0));
+  const [filter, setFilter] = useState("");
   const [loading, setLoading] = useState(true);
 
   const [index, setIndex] = useState(8);
@@ -15,7 +16,7 @@ const ExploreItems = () => {
   async function getItems() {
     setLoading(true);
     await axios
-      .get(`https://us-central1-nft-cloud-functions.cloudfunctions.net/explore`)
+      .get(`https://us-central1-nft-cloud-functions.cloudfunctions.net/explore?filter=${filter}`)
       .then(({ data }) => {
         setItems(data);
         setLoading(false);
@@ -31,12 +32,16 @@ const ExploreItems = () => {
 
   useEffect(() => {
     getItems();
-  }, [])
+  }, [filter])
 
   return (
     <>
       <div>
-        <select id="filter-items" defaultValue="">
+        <select
+          id="filter-items"
+          defaultValue=""
+          onChange={ (e) => setFilter(e.target.value) }
+        >
           <option value="">Default</option>
           <option value="price_low_to_high">Price, Low to High</option>
           <option value="price_high_to_low">Price, High to Low</option>
