@@ -7,7 +7,7 @@ import 'owl.carousel/dist/assets/owl.theme.default.css';
 import Skeleton from "../UI/Skeleton";
 
 const HotCollections = () => {
-  const [collections, setCollections] = useState(["", "", "", ""]);
+  const [collections, setCollections] = useState(new Array(4).fill(""));
   const [loading, setLoading] = useState(false);
 
   const carouselOptions = {

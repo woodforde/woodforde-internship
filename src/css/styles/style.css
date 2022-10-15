@@ -13709,6 +13709,11 @@ a.read_more i {
   font-weight: bold;
 }
 
+.nft__item_info_skeleton_span {
+  display: flex;
+  justify-content: space-between;
+}
+
 .nft__item_price {
   font-size: 14px;
   font-weight: 600;

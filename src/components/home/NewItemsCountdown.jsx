@@ -4,7 +4,7 @@ function NewItemsCountdown({ expiryDate }) {
     const [time, setTime] = useState(Date.now());
 
     function timeToString() {
-        let millisLeft = (expiryDate|| time) - time;
+        let millisLeft = (expiryDate || time) - time;
         let secondsLeft = millisLeft / 1000;
         let minutesLeft = secondsLeft / 60;
         let hoursLeft = minutesLeft / 60;

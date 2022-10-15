@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import OwlCarousel from 'react-owl-carousel';
 import NewItemsCountdown from "./NewItemsCountdown";
+import Skeleton from "../UI/Skeleton";
 
 
 const NewItems = () => {
@@ -33,9 +34,12 @@ const NewItems = () => {
 
   async function getItems() {
     setLoading(true);
-    let { data } = await axios.get(`https://us-central1-nft-cloud-functions.cloudfunctions.net/newItems`);
-    setItems(data);
-    setLoading(false);
+    await axios
+      .get(`https://us-central1-nft-cloud-functions.cloudfunctions.net/newItems`)
+      .then(({ data }) => {
+        setItems(data);
+        setLoading(false);
+      });
   }
 
   useEffect(() => {
@@ -69,7 +73,7 @@ const NewItems = () => {
                       </Link>
                     </div>
                     { 
-                      (item.expiryDate && item.expiryDate > 0) && <NewItemsCountdown expiryDate={item.expiryDate} />
+                      (item.expiryDate && item.expiryDate - Date.now() > 0) && <NewItemsCountdown expiryDate={item.expiryDate} />
                     }
                     <div className="nft__item_wrap">
                       <Link to={`/item-details/${item.nftId}`}>
@@ -92,10 +96,21 @@ const NewItems = () => {
                     </div>
                   </div>
                 ) : (
-                  // <h1>loading</h1> implement skeleton
+                  <div className="nft__item">
+                    <div className="author_list_pp">
+                      <Skeleton height="50px" width="50px" borderRadius="50%"/>
+                    </div>
+                    <div className="nft__item_wrap">
+                      <Skeleton width="100%" height="85%" borderRadius="8px"/>
+                    </div>
+                    <div className="nft__item_info">
+                      <Skeleton height="15px" width="90%" />
+                      <div></div>
+                      <span className="nft__item_info_skeleton_span"><Skeleton height="14px" width="40%" /><Skeleton height="14px" width="10%" /></span>
+                    </div>
+                  </div>
                 )}
               </div>
-
             ))
           } </OwlCarousel>
         </div>
