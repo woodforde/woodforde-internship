@@ -7,7 +7,7 @@ import 'owl.carousel/dist/assets/owl.theme.default.css';
 import Skeleton from "../UI/Skeleton";
 
 const HotCollections = () => {
-  const [collections, setCollections] = useState(["", "", "", ""]);
+  const [collections, setCollections] = useState(new Array(4).fill(""));
   const [loading, setLoading] = useState(false);
 
   const carouselOptions = {
@@ -63,7 +63,7 @@ const HotCollections = () => {
                     </Link>
                   </div>
                   <div className="nft_coll_pp">
-                    <Link to="/author">
+                    <Link to={`/author/${collection.authorId}`}>
                       <img className="lazy pp-coll" src={collection.authorImage} alt="" />
                     </Link>
                     <i className="fa fa-check"></i>
