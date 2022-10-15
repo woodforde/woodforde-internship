@@ -16,6 +16,7 @@ function ItemTileCountdown({ expiryDate }) {
         setInterval(() => {
             setTime(Date.now());
         }, 1000);
+        return () => { setTime(0) };
     }, [])
 
     return (
