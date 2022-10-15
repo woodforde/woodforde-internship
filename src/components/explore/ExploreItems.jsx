@@ -1,9 +1,27 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import AuthorImage from "../../images/author_thumbnail.jpg";
-import nftImage from "../../images/nftImage.jpg";
+import ItemTile from "../UI/ItemTile";
 
 const ExploreItems = () => {
+
+  const [items, setItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  async function getItems() {
+    setLoading(true);
+    await axios
+      .get(`https://us-central1-nft-cloud-functions.cloudfunctions.net/explore`)
+      .then(({ data }) => {
+        setItems(data);
+        setLoading(false);
+      })
+  }
+
+  useEffect(() => {
+    getItems();
+  }, [])
+
   return (
     <>
       <div>
@@ -14,7 +32,22 @@ const ExploreItems = () => {
           <option value="likes_high_to_low">Most liked</option>
         </select>
       </div>
-      {new Array(8).fill(0).map((_, index) => (
+
+      { !loading ? (
+        items.map((item) => (
+          <div
+            key={item.id}
+            className="d-item col-lg-3 col-md-6 col-sm-6 col-xs-12"
+            style={{ display: "block", backgroundSize: "cover" }}
+          >
+            <ItemTile item={item}/>
+          </div>
+        ))
+      ):(
+        <h1>loading</h1>
+      )}
+
+      {/* {new Array(8).fill(0).map((_, index) => (
         <div
           key={index}
           className="d-item col-lg-3 col-md-6 col-sm-6 col-xs-12"
@@ -75,7 +108,7 @@ const ExploreItems = () => {
             </div>
           </div>
         </div>
-      ))}
+      ))} */}
       <div className="col-md-12 text-center">
         <Link to="" id="loadmore" className="btn-main lead">
           Load more
