@@ -32,7 +32,10 @@ const TopSellers = () => {
               <div className="small-border bg-color-2"></div>
             </div>
           </div>
-          <div className="col-md-12">
+          <div
+            className="col-md-12"
+            data-aos="fade"
+          >
             <ol className="author_list">
               { !loading ? (
                 sellers.slice(0, 12).map((seller) => (
