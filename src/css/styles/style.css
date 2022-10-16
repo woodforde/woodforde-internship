@@ -14256,6 +14256,15 @@ a.read_more i {
   margin-left: 20px;
 }
 
+.profile_name__skeleton {
+  display: flex;
+  flex-direction: column;
+}
+
+.profile_name__skeleton > .skeleton-box {
+  margin-top: 8px;
+}
+
 .rtl .profile_name {
   margin-left: 0;
   margin-right: 20px;
